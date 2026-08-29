@@ -1,0 +1,42 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "subscriptionId": {
+            "value": "d1000be4-4abb-4675-b709-04c98058ec17"
+        },
+       "name": {
+                "value": "techversant-dotnetcore-app"
+            },
+        "location": {
+            "value": "Central US"
+        },
+        "hostingPlanName": {
+            "value": "techversant-plan"
+        },
+        "serverFarmResourceGroup": {
+            "value": "techversantdotnet"
+        },
+        "alwaysOn": {
+            "value": false
+        },
+        "sku": {
+            "value": "Shared"
+        },
+        "skuCode": {
+            "value": "D1"
+        },
+        "workerSize": {
+            "value": "0"
+        },
+        "workerSizeId": {
+            "value": "0"
+        },
+        "numberOfWorkers": {
+            "value": "1"
+        },
+       "netCoreVersion": {
+            "value": "8.0"
+        }
+    }
+}
