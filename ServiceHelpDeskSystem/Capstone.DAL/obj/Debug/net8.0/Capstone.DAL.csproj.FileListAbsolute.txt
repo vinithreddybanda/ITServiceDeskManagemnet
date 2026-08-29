@@ -1,0 +1,11 @@
+C:\Deepti\Accenture\LKM\ContentDevAEH\CapstoneProject\Original-Final\BlankITSRPForDevops\CapstoneSolution\Capstone.DAL\bin\Debug\net8.0\Capstone.DAL.deps.json
+C:\Deepti\Accenture\LKM\ContentDevAEH\CapstoneProject\Original-Final\BlankITSRPForDevops\CapstoneSolution\Capstone.DAL\bin\Debug\net8.0\Capstone.DAL.dll
+C:\Deepti\Accenture\LKM\ContentDevAEH\CapstoneProject\Original-Final\BlankITSRPForDevops\CapstoneSolution\Capstone.DAL\bin\Debug\net8.0\Capstone.DAL.pdb
+C:\Deepti\Accenture\LKM\ContentDevAEH\CapstoneProject\Original-Final\BlankITSRPForDevops\CapstoneSolution\Capstone.DAL\obj\Debug\net8.0\Capstone.DAL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Deepti\Accenture\LKM\ContentDevAEH\CapstoneProject\Original-Final\BlankITSRPForDevops\CapstoneSolution\Capstone.DAL\obj\Debug\net8.0\Capstone.DAL.AssemblyInfoInputs.cache
+C:\Deepti\Accenture\LKM\ContentDevAEH\CapstoneProject\Original-Final\BlankITSRPForDevops\CapstoneSolution\Capstone.DAL\obj\Debug\net8.0\Capstone.DAL.AssemblyInfo.cs
+C:\Deepti\Accenture\LKM\ContentDevAEH\CapstoneProject\Original-Final\BlankITSRPForDevops\CapstoneSolution\Capstone.DAL\obj\Debug\net8.0\Capstone.DAL.csproj.CoreCompileInputs.cache
+C:\Deepti\Accenture\LKM\ContentDevAEH\CapstoneProject\Original-Final\BlankITSRPForDevops\CapstoneSolution\Capstone.DAL\obj\Debug\net8.0\Capstone.DAL.dll
+C:\Deepti\Accenture\LKM\ContentDevAEH\CapstoneProject\Original-Final\BlankITSRPForDevops\CapstoneSolution\Capstone.DAL\obj\Debug\net8.0\refint\Capstone.DAL.dll
+C:\Deepti\Accenture\LKM\ContentDevAEH\CapstoneProject\Original-Final\BlankITSRPForDevops\CapstoneSolution\Capstone.DAL\obj\Debug\net8.0\Capstone.DAL.pdb
+C:\Deepti\Accenture\LKM\ContentDevAEH\CapstoneProject\Original-Final\BlankITSRPForDevops\CapstoneSolution\Capstone.DAL\obj\Debug\net8.0\ref\Capstone.DAL.dll

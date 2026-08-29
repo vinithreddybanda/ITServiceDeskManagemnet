@@ -1,0 +1,99 @@
+trigger:
+  branches:
+    include:
+    - master
+
+pool:
+  name: VinithAgentPool
+
+variables:
+  buildConfiguration: 'Release'
+  # Make sure these are in your "Variables" button in Azure DevOps UI:
+  # app_name, connectedservicename, plan_name, subscription_id
+
+stages:
+- stage: Build
+  displayName: ApplicationBuild
+  jobs:
+  - job: Build
+    steps:
+    # 1. Install Node.js so React can build
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '20.x'
+      displayName: 'Install Node.js'
+
+    # 2. Setup NuGet
+    - task: NuGetToolInstaller@1
+      inputs:
+        versionSpec: '6.x'
+
+    - task: NuGetCommand@2
+      inputs:
+        command: restore
+        restoreSolution: '**/*.sln'
+
+    # 3. Build using Visual Studio 2026 (Latest)
+    - task: VSBuild@1
+      inputs:
+        solution: '**/*.sln'
+        msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
+        configuration: '$(buildConfiguration)'
+        vsVersion: 'latest' # This will pick up VS 2026 (v18.0)
+        clean: true
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
+
+- stage: Test
+  displayName: UnitTest
+  jobs:
+  - job: Test
+    steps:
+    # 4. Install the Test Platform (Fixes the VS 2015 error)
+    - task: VisualStudioTestPlatformInstaller@1
+      inputs:
+        packageFeedSelector: 'nugetOrg'
+        versionSelector: 'latestPreRelease'
+
+    - task: VSTest@2
+      inputs:
+        testSelector: 'testAssemblies'
+        testAssemblyVer2: |
+          **\*test*.dll
+          !**\*TestAdapter.dll
+          !**\obj\**
+        vsTestVersion: 'toolsInstaller' # Uses the platform installed above
+
+- stage: deploy_dev
+  displayName: ApplicationDeplo
+  jobs:
+  - job: dev
+    steps:
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        buildType: 'current'
+        downloadType: 'single'
+        artifactName: 'drop'
+        downloadPath: '$(System.DefaultWorkingDirectory)'
+
+    # 5. Deploy to the Web App created by EnvironmentRepo
+    - task: AzureRmWebAppDeployment@4
+      inputs:
+        ConnectionType: 'AzureRM'
+        azureSubscription: '$(connectedservicename)'
+        appType: 'webApp'
+        WebAppName: '$(app_name)'
+        packageForLinux: '$(System.DefaultWorkingDirectory)/drop/*.zip'
+
+- stage: functionaltest_dev
+  displayName: FunctionalTest
+  jobs:
+  - job: FunctionalTesting
+    steps:
+    - task: CmdLine@2
+      inputs:
+        script: echo "Functional tests placeholder"
