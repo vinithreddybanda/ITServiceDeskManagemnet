@@ -121,8 +121,12 @@ function RequestTable({ requests, showUser, showActions, allowOpen = false }) {
             <Fragment key={request.requestId}>
               <tr className="data-row">
                 <td>{request.requestId}</td>
-                <td>{request.description}</td>
-                <td>{request.details}</td>
+                <td>
+                  <span className="cell-ellipsis" title={request.description}>{request.description}</span>
+                </td>
+                <td>
+                  <span className="cell-ellipsis" title={request.details}>{request.details}</span>
+                </td>
                 {showUser && <td>{request.raisedBy}</td>}
                 <td>{formatDate(request.raisedOn)}</td>
                 <td>
