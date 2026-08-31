@@ -5,6 +5,7 @@
 body {
   margin: 0;
   min-width: 320px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #123041;
+  font-family: 'IBM Plex Sans', 'Trebuchet MS', 'Segoe UI', sans-serif;
+  color: #131313;
+  background: #f2f2f2;
 }

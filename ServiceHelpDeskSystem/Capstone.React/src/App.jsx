@@ -1,9 +1,9 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { Fragment, useCallback, useEffect, useMemo, useState } from 'react'
 import axios from 'axios'
 import { BrowserRouter, Link, Navigate, Route, Routes, useNavigate, useParams } from 'react-router-dom'
 import './App.css'
 
-const API_BASE = 'https://localhost:5193/ITSRPAPI'
+const API_BASE = import.meta.env.VITE_API_BASE || '/ITSRPAPI'
 
 function statusText(request) {
   if (request?.status?.description) {
@@ -91,7 +91,14 @@ function LoginScreen({ onLogin }) {
   )
 }
 
-function RequestTable({ requests, showUser, showActions }) {
+function RequestTable({ requests, showUser, showActions, allowOpen = false }) {
+  const [openTicketId, setOpenTicketId] = useState(null)
+  const totalColumns = 5 + (showUser ? 1 : 0) + (allowOpen ? 1 : 0) + (showActions ? 1 : 0)
+
+  const toggleTicket = (requestId) => {
+    setOpenTicketId((current) => (current === requestId ? null : requestId))
+  }
+
   return (
     <table className="request-table">
       <thead>
@@ -102,21 +109,59 @@ function RequestTable({ requests, showUser, showActions }) {
           {showUser && <th>Requested By</th>}
           <th>Creation Date</th>
           <th>Request Status</th>
+          {allowOpen && <th>Ticket</th>}
           {showActions && <th>Actions</th>}
         </tr>
       </thead>
       <tbody>
-        {requests.map((request) => (
-          <tr key={request.requestId}>
-            <td>{request.requestId}</td>
-            <td>{request.description}</td>
-            <td>{request.details}</td>
-            {showUser && <td>{request.raisedBy}</td>}
-            <td>{formatDate(request.raisedOn)}</td>
-            <td>{statusText(request)}</td>
-            {showActions && <td>{showActions(request)}</td>}
-          </tr>
-        ))}
+        {requests.map((request) => {
+          const isOpen = openTicketId === request.requestId
+
+          return (
+            <Fragment key={request.requestId}>
+              <tr className="data-row">
+                <td>{request.requestId}</td>
+                <td>{request.description}</td>
+                <td>{request.details}</td>
+                {showUser && <td>{request.raisedBy}</td>}
+                <td>{formatDate(request.raisedOn)}</td>
+                <td>
+                  <span className={`status-chip ${request.reqStatus === 2 ? 'closed' : 'open'}`}>
+                    {statusText(request)}
+                  </span>
+                </td>
+                {allowOpen && (
+                  <td>
+                    <button
+                      type="button"
+                      className="text-action open-ticket-btn"
+                      onClick={() => toggleTicket(request.requestId)}
+                      aria-label={isOpen ? 'Hide Ticket' : 'Open Ticket'}
+                      title={isOpen ? 'Hide Ticket' : 'Open Ticket'}
+                    >
+                      {isOpen ? 'Hide' : 'View'}
+                    </button>
+                  </td>
+                )}
+                {showActions && <td className="row-actions-cell">{showActions(request)}</td>}
+              </tr>
+              {allowOpen && isOpen && (
+                <tr className="ticket-detail-row">
+                  <td colSpan={totalColumns}>
+                    <div className="ticket-detail-panel">
+                      <p><strong>Ticket #{request.requestId}</strong></p>
+                      <p><strong>Description:</strong> {request.description}</p>
+                      <p><strong>Details:</strong> {request.details}</p>
+                      {showUser && <p><strong>Requested By:</strong> {request.raisedBy}</p>}
+                      <p><strong>Created:</strong> {formatDate(request.raisedOn)}</p>
+                      <p><strong>Status:</strong> {statusText(request)}</p>
+                    </div>
+                  </td>
+                </tr>
+              )}
+            </Fragment>
+          )
+        })}
       </tbody>
     </table>
   )
@@ -159,12 +204,30 @@ function UserHome({ user, onLogout }) {
           <RequestTable
             requests={requests}
             showUser={false}
+            allowOpen
             showActions={(request) => (
-              <>
-                <Link to={`/user/delete/${request.requestId}`}>Delete</Link>
-                {' | '}
-                {request.reqStatus === 2 ? <Link to={`/user/reopen/${request.requestId}`}>Re-Open</Link> : <span>-</span>}
-              </>
+              <div className="row-actions">
+                <Link
+                  to={`/user/delete/${request.requestId}`}
+                  className="text-action delete"
+                  aria-label="Delete Request"
+                  title="Delete Request"
+                >
+                  Delete
+                </Link>
+                {request.reqStatus === 2 ? (
+                  <Link
+                    to={`/user/reopen/${request.requestId}`}
+                    className="text-action reopen"
+                    aria-label="Re-Open Request"
+                    title="Re-Open Request"
+                  >
+                    Re-Open
+                  </Link>
+                ) : (
+                  <span className="action-disabled" title="Re-Open Unavailable">N/A</span>
+                )}
+              </div>
             )}
           />
         )}
@@ -314,7 +377,7 @@ function ReopenRequest({ user, onLogout }) {
             />
           </>
         )}
-        <button type="button" onClick={reopen}>ReOpen Request</button>
+        <button type="button" onClick={reopen}>Re-Open Request</button>
         <button type="button" onClick={() => navigate('/user')}>Back to List</button>
         {message && <p>{message}</p>}
       </div>
@@ -361,12 +424,23 @@ function AdminHome({ user, onLogout }) {
           <RequestTable
             requests={requests}
             showUser
+            allowOpen
             showActions={(request) => (
-              request.reqStatus === 1 ? (
-                <button type="button" onClick={() => closeRequest(request.requestId)}>Close Request</button>
-              ) : (
-                <span>Closed</span>
-              )
+              <div className="row-actions">
+                {request.reqStatus === 1 ? (
+                  <button
+                    type="button"
+                    className="text-action close"
+                    onClick={() => closeRequest(request.requestId)}
+                    aria-label="Close Request"
+                    title="Close Request"
+                  >
+                    Close
+                  </button>
+                ) : (
+                  <span className="action-disabled" title="Already Closed">Closed</span>
+                )}
+              </div>
             )}
           />
         )}
@@ -406,10 +480,10 @@ function SearchRequests({ user, onLogout }) {
           <label htmlFor="search-user">Enter the requester name</label>
           <input id="search-user" value={userName} onChange={(e) => setUserName(e.target.value)} />
           <button type="submit">Search</button>
-          <Link to="/admin">Back</Link>
+          <Link to="/admin">Back to Admin Home</Link>
         </form>
         {message && <p>{message}</p>}
-        {requests.length > 0 && <RequestTable requests={requests} showUser />}
+        {requests.length > 0 && <RequestTable requests={requests} showUser allowOpen />}
       </div>
     </div>
   )

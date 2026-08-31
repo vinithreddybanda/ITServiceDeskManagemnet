@@ -1,14 +1,21 @@
 :root {
-  --bg-1: #f1fbff;
-  --bg-2: #d3f3ff;
+  --bg: #f5f7fb;
+  --bg-alt: #eef2f8;
   --panel: #ffffff;
-  --panel-border: #8bc7d8;
-  --text: #143646;
-  --muted: #476879;
-  --brand: #00a9c0;
-  --brand-dark: #087590;
-  --danger: #bb2d3b;
-  --ok: #0b7d4c;
+  --line: #e7ebf1;
+  --line-strong: #111111;
+  --text: #131313;
+  --muted: #4a4a4a;
+  --surface: #f2f2f2;
+  --inverse: #0a0a0a;
+  --success: #202020;
+  --danger: #0b0b0b;
+  --accent: #1a73e8;
+  --accent-soft: #e8f0fe;
+  --danger-accent: #d93025;
+  --warn-soft: #fef7e0;
+  --radius: 12px;
+  --shadow-soft: 0 14px 28px rgba(0, 0, 0, 0.07);
 }
 
 #root {
@@ -17,26 +24,32 @@
 
 .page {
   min-height: 100vh;
-  background: linear-gradient(160deg, var(--bg-1), var(--bg-2));
-  padding: 2rem 1rem 3rem;
+  background:
+    radial-gradient(circle at 80% 10%, #ffffff 0%, transparent 40%),
+    linear-gradient(140deg, var(--bg), var(--bg-alt));
+  padding: 2rem 1rem 2.75rem;
+  animation: fade-in 0.45s ease;
 }
 
 .hero {
   max-width: 980px;
   margin: 0 auto 1rem;
-  padding: 1.15rem 1.5rem;
-  color: #e8fdff;
-  background: linear-gradient(90deg, #04c2d8, #0c7fa1);
-  border-radius: 10px;
-  box-shadow: 0 18px 30px rgba(8, 87, 105, 0.25);
+  padding: 1.15rem 1.3rem;
+  color: #ffffff;
+  background: linear-gradient(135deg, #1a1a1a, #000000);
+  border: 1px solid #2e2e2e;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  animation: rise-in 0.5s ease;
 }
 
 .hero h1 {
   margin: 0;
-  font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
+  font-family: 'IBM Plex Sans', 'Trebuchet MS', 'Segoe UI', sans-serif;
   font-size: clamp(1rem, 2.4vw, 1.35rem);
   text-align: center;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
+  font-weight: 600;
 }
 
 .hero-actions {
@@ -44,7 +57,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #d9f8ff;
+  color: #d3d3d3;
   gap: 1rem;
 }
 
@@ -53,21 +66,29 @@
   margin: 0 auto;
   background: var(--panel);
   color: var(--text);
-  border: 2px solid var(--panel-border);
-  border-radius: 12px;
-  padding: 1rem 1.1rem;
-  box-shadow: 0 16px 30px rgba(20, 54, 70, 0.12);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0.95rem;
+  box-shadow: var(--shadow-soft);
+  animation: rise-in 0.5s ease;
 }
 
 .form {
   max-width: 560px;
   display: grid;
-  gap: 0.5rem;
+  gap: 0.6rem;
 }
 
 .form h2,
 .search-form h2 {
   margin: 0 0 0.5rem;
+  letter-spacing: 0.01em;
+  font-weight: 650;
+}
+
+label {
+  color: var(--muted);
+  font-size: 0.92rem;
 }
 
 input,
@@ -78,9 +99,19 @@ button {
 
 input,
 textarea {
-  border: 1px solid #8bb4c1;
-  border-radius: 6px;
-  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 0.55rem 0.7rem;
+  background: #ffffff;
+  color: var(--text);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--line-strong);
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
 }
 
 textarea {
@@ -88,66 +119,251 @@ textarea {
   resize: vertical;
 }
 
-button {
-  border: 1px solid transparent;
-  border-radius: 7px;
-  background: var(--brand);
-  color: #fff;
-  padding: 0.48rem 0.9rem;
+button,
+.toolbar a,
+.search-form a,
+.request-table a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line-strong);
+  border-radius: 9px;
+  background: #ffffff;
+  color: #111111;
+  padding: 0.5rem 0.92rem;
   cursor: pointer;
+  text-decoration: none;
+  font-weight: 600;
+  transition: transform 0.15s ease, background-color 0.2s ease, color 0.2s ease;
 }
 
-button:hover {
-  background: var(--brand-dark);
+button:hover,
+.toolbar a:hover,
+.search-form a:hover,
+.request-table a:hover {
+  background: var(--inverse);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+button:active,
+.toolbar a:active,
+.search-form a:active,
+.request-table a:active {
+  transform: translateY(0);
+}
+
+button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.55rem;
   gap: 0.8rem;
 }
 
 .request-table {
   width: 100%;
   border-collapse: collapse;
-  background: #fff;
+  background: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 .request-table th,
 .request-table td {
-  border: 1px solid #b7d5de;
-  padding: 0.5rem;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  padding: 0.48rem 0.52rem;
   text-align: left;
-  font-size: 0.92rem;
+  font-size: 0.88rem;
+  vertical-align: middle;
 }
 
 .request-table th {
-  background: #ebf8ff;
+  background: #ffffff;
+  color: #5f6368;
+  font-size: 0.79rem;
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.request-table tbody tr {
+  animation: fade-in 0.32s ease;
+}
+
+.request-table tbody tr.data-row {
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.request-table tbody tr.data-row:hover {
+  background: #f8fbff;
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+.row-actions-cell {
+  min-width: 110px;
+}
+
+.row-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  opacity: 1;
+  transform: none;
+}
+
+.text-action {
+  height: 30px;
+  padding: 0 0.62rem;
+  border-radius: 999px;
+  border: 1px solid #cfd6e2;
+  background: #f1f4f9;
+  color: #2f3a4a;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.78rem;
+  font-weight: 650;
+  text-decoration: none;
+  line-height: 1;
+}
+
+.text-action.delete {
+  color: #b3261e;
+  background: #fff1f0;
+  border-color: #f1cbc8;
+}
+
+.text-action.reopen {
+  color: #0b57d0;
+  background: #edf3ff;
+  border-color: #c9dafc;
+}
+
+.text-action.close {
+  color: #2d6a2d;
+  background: #e9f7ee;
+  border-color: #c7e5d0;
+}
+
+.text-action:hover {
+  transform: none;
+  border-color: #d2d9e4;
+  background: #eff3f7;
+  color: #5f6368;
+}
+
+.open-ticket-btn {
+  min-width: 56px;
+}
+
+.action-disabled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #dadce0;
+  border-radius: 9px;
+  min-width: 48px;
+  height: 28px;
+  padding: 0 0.55rem;
+  color: #6e7277;
+  background: #f8f9fa;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.ticket-detail-row td {
+  background: #fbfcff;
+  padding: 0.55rem;
+}
+
+.ticket-detail-panel {
+  border: 1px solid #dbe4f4;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #ffffff, #f9fbff);
+  padding: 0.62rem 0.76rem;
+  display: grid;
+  gap: 0.2rem;
+}
+
+.ticket-detail-panel p {
+  margin: 0;
+  color: #2b2b2b;
+  font-size: 0.85rem;
+  line-height: 1.35;
+}
+
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.1rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.status-chip.open {
+  color: #135f0e;
+  background: #e6f4ea;
+}
+
+.status-chip.closed {
+  color: #5f6368;
+  background: #f1f3f4;
 }
 
 .search-form {
   display: grid;
-  gap: 0.45rem;
+  gap: 0.5rem;
   margin-bottom: 1rem;
 }
 
 .error {
   color: var(--danger);
+  border-left: 3px solid #111111;
+  padding-left: 0.5rem;
 }
 
 .success {
-  color: var(--ok);
+  color: var(--success);
+  border-left: 3px solid #111111;
+  padding-left: 0.5rem;
 }
 
 a {
-  color: #065f8f;
-  font-weight: 600;
+  color: #111111;
 }
 
 .login-page .card {
   margin-top: 3.2rem;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (max-width: 768px) {
@@ -165,5 +381,25 @@ a {
     display: block;
     overflow-x: auto;
     white-space: nowrap;
+  }
+
+  .row-actions {
+    flex-wrap: nowrap;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page,
+  .hero,
+  .card,
+  .request-table tbody tr,
+  button,
+  .toolbar a,
+  .search-form a,
+  .request-table a {
+    animation: none;
+    transition: none;
   }
 }
