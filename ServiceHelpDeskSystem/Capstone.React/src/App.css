@@ -212,17 +212,20 @@ button:disabled {
 }
 
 .row-actions-cell {
-  width: 170px;
+  width: 130px;
+  text-align: center;
 }
 
 .row-actions {
   display: flex;
   align-items: center;
-  gap: 0.35rem;
+  justify-content: center;
+  gap: 0.28rem;
   flex-wrap: nowrap;
   opacity: 1;
   transform: none;
   white-space: nowrap;
+  margin: 0 auto;
 }
 
 .cell-ellipsis {
@@ -234,8 +237,8 @@ button:disabled {
 }
 
 .text-action {
-  height: 30px;
-  padding: 0 0.62rem;
+  height: 24px;
+  padding: 0 0.5rem;
   border-radius: 999px;
   border: 1px solid #cfd6e2;
   background: #f1f4f9;
@@ -243,10 +246,12 @@ button:disabled {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.78rem;
+  font-size: 0.68rem;
   font-weight: 650;
   text-decoration: none;
   line-height: 1;
+  min-width: 58px;
+  box-sizing: border-box;
 }
 
 .text-action.delete {
