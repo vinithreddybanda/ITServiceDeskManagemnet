@@ -8,7 +8,7 @@ public interface IRepository
     List<ServiceRequest> ViewRequests();
     List<ServiceRequest> ViewRequests(string userName);
     int RaiseRequest(ServiceRequest newRequest);
-    ServiceRequest GetRequestById(int requestId);
+    ServiceRequest GetRequestByld(int requestId);
     bool ReOpenRequest(ServiceRequest request);
     List<ServiceRequest> GetRequestBySP(string userName);
     bool CloseRequest(int requestId);

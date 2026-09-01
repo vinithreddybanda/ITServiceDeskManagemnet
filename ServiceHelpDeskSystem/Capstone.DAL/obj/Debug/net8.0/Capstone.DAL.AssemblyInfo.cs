@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Capstone.DAL")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e6fa21cc8a7bf67976f651d11ece55780c27e9a0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8030a0218a76cb48359df91656f4ec57e1f33e57")]
 [assembly: System.Reflection.AssemblyProductAttribute("Capstone.DAL")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Capstone.DAL")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

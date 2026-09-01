@@ -71,11 +71,11 @@ public class ITSRPAPIController(IRepository repository) : ControllerBase
             return NotFound("Request not found");
         }
 
-        var refreshed = repository.GetRequestById(request.RequestId);
+        var refreshed = repository.GetRequestByld(request.RequestId);
         return Ok(refreshed);
     }
 
-    [HttpPost("CreateNewSeRequest")]
+    [HttpPost("CreateNewSerRequest")]
     public IActionResult Post([FromBody] ServiceRequest newRequest)
     {
         if (!ModelState.IsValid)
@@ -84,13 +84,13 @@ public class ITSRPAPIController(IRepository repository) : ControllerBase
         }
 
         var requestId = repository.RaiseRequest(newRequest);
-        return CreatedAtAction(nameof(GetRequestsById), new { reqId = requestId }, new { RequestId = requestId });
+        return CreatedAtAction(nameof(GetRequestByld), new { reqId = requestId }, new { RequestId = requestId });
     }
 
-    [HttpGet("GetRequestById")]
-    public IActionResult GetRequestsById(int reqId)
+    [HttpGet("GetRequestByld")]
+    public IActionResult GetRequestByld(int reqId)
     {
-        var request = repository.GetRequestById(reqId);
+        var request = repository.GetRequestByld(reqId);
         if (request == null)
         {
             return NotFound("Request not found");

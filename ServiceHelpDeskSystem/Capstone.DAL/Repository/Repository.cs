@@ -45,7 +45,7 @@ public class Repository(HelpDeskDbContext context) : IRepository
         return newRequest.RequestId;
     }
 
-    public ServiceRequest GetRequestById(int requestId)
+    public ServiceRequest GetRequestByld(int requestId)
     {
         return context.ServiceRequests
             .Include(r => r.Status)

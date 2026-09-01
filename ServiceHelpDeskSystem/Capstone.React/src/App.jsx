@@ -67,10 +67,10 @@ function LoginScreen({ onLogin }) {
 
   return (
     <div className="page login-page">
-      <Header title="IT Service Desk Management" />
+      <Header title="Your One Stop Web Site For All Service Requests" />
       <form className="card form" onSubmit={submit}>
-        <h2>User Login</h2>
-        <label htmlFor="userName">User Name</label>
+        <h2>USER LOGIN</h2>
+        <label htmlFor="userName">Email Id</label>
         <input id="userName" value={userName} onChange={(e) => setUserName(e.target.value)} required />
 
         <label htmlFor="password">Password</label>
@@ -85,7 +85,7 @@ function LoginScreen({ onLogin }) {
         />
 
         {error && <p className="error">{error}</p>}
-        <button type="submit" disabled={loading}>{loading ? 'Logging in...' : 'Login'}</button>
+        <button type="submit" disabled={loading}>{loading ? 'Logging in...' : 'LOGIN'}</button>
       </form>
     </div>
   )
@@ -250,7 +250,7 @@ function AddRequest({ user, onLogout }) {
     event.preventDefault()
     setMessage('')
     try {
-      const response = await axios.post(`${API_BASE}/CreateNewSeRequest`, {
+      const response = await axios.post(`${API_BASE}/CreateNewSerRequest`, {
         description,
         details,
         raisedBy: user.userName,
@@ -292,7 +292,7 @@ function DeleteRequest({ user, onLogout }) {
   const [message, setMessage] = useState('')
 
   useEffect(() => {
-    axios.get(`${API_BASE}/GetRequestById`, { params: { reqId: id } })
+    axios.get(`${API_BASE}/GetRequestByld`, { params: { reqId: id } })
       .then((response) => setRequest(response.data))
       .catch(() => setMessage('Request not found'))
   }, [id])
@@ -332,7 +332,7 @@ function ReopenRequest({ user, onLogout }) {
   const [message, setMessage] = useState('')
 
   useEffect(() => {
-    axios.get(`${API_BASE}/GetRequestById`, { params: { reqId: id } })
+    axios.get(`${API_BASE}/GetRequestByld`, { params: { reqId: id } })
       .then((response) => setRequest(response.data))
       .catch(() => setMessage('Request not found'))
   }, [id])
@@ -481,7 +481,7 @@ function SearchRequests({ user, onLogout }) {
       <div className="card">
         <form className="search-form" onSubmit={search}>
           <h2>Search Requests</h2>
-          <label htmlFor="search-user">Enter the requester name</label>
+          <label htmlFor="search-user">Enter the Requester Name:</label>
           <input id="search-user" value={userName} onChange={(e) => setUserName(e.target.value)} />
           <button type="submit">Search</button>
           <Link to="/admin">Back to Admin Home</Link>
